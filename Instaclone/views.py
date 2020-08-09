@@ -32,3 +32,17 @@ def profiledetails(request,profile_id):
 
     return render(request,"profiledetails.html",{"profile":profile})
 
+def new_image(request):
+    current_user=request.user
+    if request.method == 'POST':
+        form =NewImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            image=form.save(commit=False)
+            image.profile = current_user
+            image.save()
+        return redirect('index')
+    else:
+        form=NewImageForm()
+    return render(request,'new_image.html',{"form":form})
+
+
