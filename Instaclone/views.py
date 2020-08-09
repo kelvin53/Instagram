@@ -60,4 +60,15 @@ def new_comment(request):
         form=NewCommentForm()
     return render(request,'new_comment.html',{"form":form})
 
+def profile(request):
+    current_user=request.user
+    photos=Image.objects.filter(profile=current_user)
+    try:
+        profile = Profile.objects.get(user=current_user)
+    except ObjectDoesNotExist:
+        return redirect('create-profile')
+
+    return render(request,'profile.html',{"photos":photos,"profile":profile})
+
+
 
