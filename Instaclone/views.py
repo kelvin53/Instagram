@@ -22,3 +22,13 @@ def imagedetails(request,image_id):
     except ObjectDoesNotExist:
          raise Http404()
     return render(request,"image.html",{"image":image,"comments":comments})
+
+def profiledetails(request,profile_id):
+    try:
+        profile = Profile.objects.get(id=profile_id)
+    except ObjectDoesNotExist:
+        message = "You haven't searched for any term"
+
+
+    return render(request,"profiledetails.html",{"profile":profile})
+
