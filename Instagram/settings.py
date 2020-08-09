@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'Instaclone.apps.InstaConfig',
+    'Instaclone.apps.InstacloneConfig',
+    'tinymce',
+    'bootstrap3'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
