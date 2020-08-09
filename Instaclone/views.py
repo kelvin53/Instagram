@@ -83,5 +83,18 @@ def create_profile(request):
         form=NewProfileForm()
     return render(request,'create_profile.html',{"form":form})
 
+def edit_profile(request):
+    current_user=request.user
+    if request.method == 'POST':
+        form =NewProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            profile=form.save(commit=False)
+            profile.user = current_user
+            profile.update()
+        return redirect('profile')
+    else:
+        form=NewProfileForm()
+    return render(request,'edit_profile.html',{"form":form})
+
 
 
