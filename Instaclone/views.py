@@ -45,4 +45,19 @@ def new_image(request):
         form=NewImageForm()
     return render(request,'new_image.html',{"form":form})
 
+def new_comment(request):
+    current_user=request.user
+    if request.method == 'POST':
+        form =NewCommentForm(request.POST,request.FILES)
+        if form.is_valid():
+            comment=form.save(commit=False)
+
+            comment.commenter = current_user
+
+            comment.save()
+        return redirect('index')
+    else:
+        form=NewCommentForm()
+    return render(request,'new_comment.html',{"form":form})
+
 
