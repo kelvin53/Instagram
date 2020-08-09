@@ -1,6 +1,12 @@
-from django.db import models
+from django.db.models import Q
+import datetime as dt
+from django.contrib.auth.models import User
+from tinymce.models import HTMLField
+
+
 
 # Create your models here.
+
 class Profile(models.Model):
     user = models.OneToOneField(User,null = True,on_delete=models.CASCADE,related_name = "profile")
     profile_photo=models.ImageField(upload_to='profiles',blank=True)
@@ -27,6 +33,7 @@ class Profile(models.Model):
     def search_by_user(cls,search_term):
         instagram=cls.objects.filter(user__username=search_term)
         return instagram
+
 
 class Image(models.Model):
     image=models.ImageField(upload_to ='images/', blank = True)
@@ -61,6 +68,7 @@ class Image(models.Model):
         image=cls.objects.get(id=image_id)
         return image
 
+
 class Comment(models.Model):
     image = models.ForeignKey(Image,blank=True, on_delete=models.CASCADE,null=True,related_name='comment')
     commenter=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
@@ -81,4 +89,3 @@ class Comment(models.Model):
     def get_comments_by_image_id(cls,image_id):
         comments=cls.objects.filter(id=image_id)
         return comments
-
