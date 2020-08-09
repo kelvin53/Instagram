@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render,redirect
+from django.http import HttpResponse,Http404
+from .models import Image,Profile,Comment
+from django.core.exceptions import ObjectDoesNotExist
+from .forms import NewImageForm,NewProfileForm,NewCommentForm
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -60,6 +65,7 @@ def new_comment(request):
         form=NewCommentForm()
     return render(request,'new_comment.html',{"form":form})
 
+
 def profile(request):
     current_user=request.user
     photos=Image.objects.filter(profile=current_user)
@@ -97,7 +103,7 @@ def edit_profile(request):
     return render(request,'edit_profile.html',{"form":form})
 
 def search_results(request):
-    
+
     if 'profile' in request.GET and request.GET["profile"]:
         search_term=request.GET.get("profile")
         searched_profiles=Profile.search_by_user(search_term)
@@ -108,7 +114,3 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
-
-
-
-
